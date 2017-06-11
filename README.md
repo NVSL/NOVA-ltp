@@ -1,3 +1,17 @@
+Note: This version of LTP has been modified for testing on the NOVA filesystem.  You can run the set of tests relevant to NOVA with
+
+```
+$ ./runltp -f nova
+```
+
+that set of tests is defined in
+
+```
+runtests/nova
+```
+
+
+
 Linux Test Project
 ==================
 
