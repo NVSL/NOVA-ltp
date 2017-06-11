@@ -25,7 +25,7 @@ def failure(name, kind, reason):
 out = []
 
 while l < max_l:
-    g = re.search("(^.*\d+)\s+T([A-Z]+)(.*)", lines[l])
+    g = re.search("(^.*\d+)\s+T(PASS|FAIL)(.*)", lines[l])
     if g:
         if g.group(2) == "PASS":
             out.append(success(g.group(1)))
