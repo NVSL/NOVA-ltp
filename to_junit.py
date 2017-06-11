@@ -12,12 +12,10 @@ def skipped(name):
     return ""
 
 def success(name):
-    print name
     a = re.split('\s+',name,maxsplit=2)
     return '<testcase classname="{}" name="{}"/>'.format(a[0], a[1])
 
 def failure(name, kind, reason):
-    print name
     a = re.split('\s+',name,maxsplit=2)
     return """<testcase classname="{}" name="{}">
         <failure type="{}"> {}</failure>
@@ -29,7 +27,6 @@ out = []
 while l < max_l:
     g = re.search("(^.*\d+)\s+T([A-Z]+)(.*)", lines[l])
     if g:
-        print g.group(2)
         if g.group(2) == "PASS":
             out.append(success(g.group(1)))
         else:
@@ -37,7 +34,8 @@ while l < max_l:
             
     l += 1
 
-print """<testsuite tests="{count}">
+print """<testsuite name="LTP"  tests="{count}">
+
 {tests}
 </testsuite>
 """.format(count=len(out), tests='\n'.join(out))
