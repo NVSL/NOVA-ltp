@@ -715,7 +715,9 @@ main()
     }
     }
 
-    set_block_device
+    if ! [ -z "$LOOPBACK_CRASH" ]; then
+       set_block_device
+    fi
 
     # here even if the user don't specify a big block device, we
     # also don't create the big block device.
@@ -987,23 +989,27 @@ create_block()
 {
     #create a block device
     dd if=/dev/zero of=${TMP}/test.img bs=1024 count=262144 >/dev/null 2>&1
+    
     if [ $? -ne 0 ]; then
         echo "Failed to create loopback device image, please check disk space and re-run"
         return 1
     else
         ##search for an unused loop dev
         LOOP_DEV=$(losetup -f)
-        if [ $? -ne 0 ]; then
+
+	if [ $? -ne 0 ]; then
             echo "no unused loop device is found"
             return 1
         else
             ##attach the created file to loop dev.
+
             losetup $LOOP_DEV ${TMP}/test.img
-            if [ $? -ne 0 ]; then
+	    if [ $? -ne 0 ]; then
                 echo "losetup failed to create block device"
                 return 1
             fi
             DEVICE=$LOOP_DEV
+
             return 0
         fi
     fi
